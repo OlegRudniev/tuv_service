@@ -23,7 +23,7 @@ const Login = () => {
     <form onSubmit={handleSubmit}>
       <input name="username" value={form.username} onChange={handleChange} placeholder="Username" />
       <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
-      <button type="submit">Login</button>
+      <button type="submit">Reg</button>
     </form>
   );
 };
