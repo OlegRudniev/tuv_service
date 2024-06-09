@@ -1,5 +1,6 @@
 import React from 'react';
-import { BrowserRouter as Router, Route,  Redirect, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+
 import TodoList from './components/TodoList';
 import Register from './components/Register';
 import Login from './components/Login';
