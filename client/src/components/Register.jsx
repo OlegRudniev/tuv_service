@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Register = () => {
+const Login = () => {
   const [form, setForm] = useState({ username: '', password: '' });
 
   const handleChange = (e) => {
@@ -11,8 +11,9 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post('/api/auth/register', form);
-      alert(res.data.message);
+      const res = await axios.post('/api/auth/login', form);
+      localStorage.setItem('token', res.data.token);
+      window.location.href = '/todos'; // Перенаправление после успешной авторизации
     } catch (err) {
       console.error(err);
     }
@@ -22,9 +23,9 @@ const Register = () => {
     <form onSubmit={handleSubmit}>
       <input name="username" value={form.username} onChange={handleChange} placeholder="Username" />
       <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
-      <button type="submit">Register</button>
+      <button type="submit">Login</button>
     </form>
   );
 };
 
-export default Register;
+export default Login;
