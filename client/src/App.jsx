@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import TodoList from './components/TodoList';
 import Register from './components/Register';
 import Login from './components/Login';
+import Logout from './components/Logout';
 
 const App = () => {
   const isAuthenticated = !!localStorage.getItem('token'); // Проверка аутентификации
@@ -12,6 +13,7 @@ const App = () => {
       <Routes>
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/logout" element={<Logout />} />
         <Route path="/todos" element={isAuthenticated ? <TodoList /> : <Navigate to="/login" />} />
         <Route path="/" element={<Navigate to={isAuthenticated ? "/todos" : "/login"} />} />
         <Route path="*" element={<Navigate to="/" />} /> {/* Перенаправление на главную страницу для всех несуществующих маршрутов */}

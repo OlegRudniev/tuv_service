@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [text, setText] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchTodos = async () => {
@@ -53,9 +55,15 @@ const TodoList = () => {
     }
   };
 
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <div>
       <h1>Todo List</h1>
+      <button onClick={handleLogout}>Logout</button>
       <input
         type="text"
         value={text}
