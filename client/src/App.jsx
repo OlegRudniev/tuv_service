@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 
 const App = () => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Проверка аутентификации
+  const isAuthenticated = !!localStorage.getItem('token'); // Пример проверки аутентификации
 
   return (
     <Router>
