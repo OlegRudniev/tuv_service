@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Login = () => {
   const [form, setForm] = useState({ username: '', password: '' });
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -14,7 +15,7 @@ const Login = () => {
     try {
       const res = await axios.post('/api/auth/login', form);
       localStorage.setItem('token', res.data.token);
-      window.location.href = '/todos'; // Перенаправление после успешной авторизации
+      navigate('/todos'); // Перенаправление после успешной авторизации
     } catch (err) {
       console.error(err);
     }
@@ -28,7 +29,7 @@ const Login = () => {
         <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
         <button type="submit">Login</button>
       </form>
-      <p>Don't have an account? <Link to="/register">Register</Link></p>
+      <p>Don't have an account? <a href="/register">Register</a></p>
     </div>
   );
 };

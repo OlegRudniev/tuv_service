@@ -5,7 +5,7 @@ import Register from './components/Register';
 import Login from './components/Login';
 
 const App = () => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Пример проверки аутентификации
+  const isAuthenticated = !!localStorage.getItem('token'); // Проверка аутентификации
 
   return (
     <Router>
@@ -14,6 +14,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/todos" element={isAuthenticated ? <TodoList /> : <Navigate to="/login" />} />
         <Route path="/" element={<Navigate to={isAuthenticated ? "/todos" : "/login"} />} />
+        <Route path="*" element={<Navigate to="/" />} /> {/* Перенаправление на главную страницу для всех несуществующих маршрутов */}
       </Routes>
     </Router>
   );
