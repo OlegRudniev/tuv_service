@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router, Route,  Redirect, Routes } from 'react-router-dom';
 import TodoList from './components/TodoList';
 import Register from './components/Register';
 import Login from './components/Login';
@@ -9,14 +9,14 @@ const App = () => {
 
   return (
     <Router>
-      <Switch>
+      <Routes>
         <Route path="/register" component={Register} />
         <Route path="/login" component={Login} />
         <Route path="/todos" render={() => (
           isAuthenticated ? <TodoList /> : <Redirect to="/login" />
         )} />
         <Redirect from="/" to={isAuthenticated ? "/todos" : "/login"} />
-      </Switch>
+      </Routes>
     </Router>
   );
 };
