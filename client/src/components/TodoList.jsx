@@ -22,7 +22,7 @@ const TodoList = () => {
     };
 
     fetchTodos();
-    setUser(JSON.parse(localStorage.getItem('user'))); // Получение информации о пользователе из localStorage
+    setUser(JSON.parse(localStorage.getItem('user')));
   }, []);
 
   const handleLogout = () => {
@@ -51,9 +51,17 @@ const TodoList = () => {
     setTodos(todos.map(todo => todo._id === id ? res.data : todo));
   };
 
+  const handleUpdateTodo = async (id, updatedTodo) => {
+    const token = localStorage.getItem('token');
+    const res = await axios.put(`/api/todos/${id}`, updatedTodo, {
+      headers: { Authorization: `Bearer ${token}` }
+    });
+    setTodos(todos.map(todo => todo._id === id ? res.data : todo));
+  };
+
   return (
     <div className="container mx-auto p-4">
-      <Header user={user} handleLogout={handleLogout} /> {/* Header отображается */}
+      <Header user={user} handleLogout={handleLogout} />
       <TodoForm
         newTodo={newTodo}
         setNewTodo={setNewTodo}
@@ -66,16 +74,19 @@ const TodoList = () => {
           title="Upcoming Tasks"
           todos={todos.filter(todo => todo.category === 'upcoming')}
           handleToggleComplete={handleToggleComplete}
+          handleUpdateTodo={handleUpdateTodo}
         />
         <TodoColumn
           title="In Progress"
           todos={todos.filter(todo => todo.category === 'inProgress')}
           handleToggleComplete={handleToggleComplete}
+          handleUpdateTodo={handleUpdateTodo}
         />
         <TodoColumn
           title="Completed Tasks"
           todos={todos.filter(todo => todo.category === 'completed')}
           handleToggleComplete={handleToggleComplete}
+          handleUpdateTodo={handleUpdateTodo}
           completed
         />
       </div>

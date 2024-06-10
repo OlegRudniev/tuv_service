@@ -12,8 +12,9 @@ router.get('/', auth, async (req, res) => {
 router.post('/', auth, async (req, res) => {
   const newTodo = new Todo({
     text: req.body.text,
-    category: req.body.category, // Добавлено поле категории
-    userId: req.userId
+    category: req.body.category,
+    userId: req.userId,
+    subtasks: req.body.subtasks // Добавлено поле подзадач
   });
   await newTodo.save();
   res.json(newTodo);
