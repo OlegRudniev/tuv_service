@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import UserHeader from './UserHeader';
+import TodoForm from './TodoForm';
+import TodoColumn from './TodoColumn';
 
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
@@ -51,95 +54,32 @@ const TodoList = () => {
   return (
     <div className="container mx-auto p-4">
       {user && (
-        <div className="flex justify-between items-center mb-4">
-          <h1 className="text-2xl font-bold">Welcome, {user.username}!</h1>
-          <button
-            onClick={handleLogout}
-            className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
-          >
-            Logout
-          </button>
-        </div>
+        <UserHeader user={user} handleLogout={handleLogout} />
       )}
-      <form onSubmit={handleAddTodo} className="flex mb-4 space-x-2">
-        <input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add a new task"
-          className="w-full p-2 border border-gray-300 rounded-l"
-        />
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-          className="p-2 border border-gray-300 rounded"
-        >
-          <option value="upcoming">Upcoming</option>
-          <option value="inProgress">In Progress</option>
-          <option value="completed">Completed</option>
-        </select>
-        <button
-          type="submit"
-          className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
-        >
-          Add
-        </button>
-      </form>
+      <TodoForm
+        newTodo={newTodo}
+        setNewTodo={setNewTodo}
+        category={category}
+        setCategory={setCategory}
+        handleAddTodo={handleAddTodo}
+      />
       <div className="flex space-x-4">
-        <div className="w-1/3">
-          <h2 className="text-xl font-bold mb-2">Upcoming Tasks</h2>
-          <ul className="space-y-2">
-            {todos.filter(todo => todo.category === 'upcoming').map(todo => (
-              <li key={todo._id} className="p-2 border rounded bg-gray-100">
-                <div className="flex justify-between items-center">
-                  <span className="text-black">{todo.text}</span>
-                  <button
-                    onClick={() => handleToggleComplete(todo._id)}
-                    className={`ml-4 px-2 py-1 rounded ${todo.completed ? 'bg-green-500 text-white' : 'bg-gray-300'}`}
-                  >
-                    {todo.completed ? 'Completed' : 'Incomplete'}
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="w-1/3">
-          <h2 className="text-xl font-bold mb-2">In Progress</h2>
-          <ul className="space-y-2">
-            {todos.filter(todo => todo.category === 'inProgress').map(todo => (
-              <li key={todo._id} className="p-2 border rounded bg-gray-100">
-                <div className="flex justify-between items-center">
-                  <span className="text-black">{todo.text}</span>
-                  <button
-                    onClick={() => handleToggleComplete(todo._id)}
-                    className={`ml-4 px-2 py-1 rounded ${todo.completed ? 'bg-green-500 text-white' : 'bg-gray-300'}`}
-                  >
-                    {todo.completed ? 'Completed' : 'Incomplete'}
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="w-1/3">
-          <h2 className="text-xl font-bold mb-2">Completed Tasks</h2>
-          <ul className="space-y-2">
-            {todos.filter(todo => todo.category === 'completed').map(todo => (
-              <li key={todo._id} className="p-2 border rounded bg-green-100">
-                <div className="flex justify-between items-center">
-                  <span className="text-black">{todo.text}</span>
-                  <button
-                    onClick={() => handleToggleComplete(todo._id)}
-                    className="ml-4 px-2 py-1 rounded bg-green-500 text-white"
-                  >
-                    Completed
-                  </button>
-                </div>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <TodoColumn
+          title="Upcoming Tasks"
+          todos={todos.filter(todo => todo.category === 'upcoming')}
+          handleToggleComplete={handleToggleComplete}
+        />
+        <TodoColumn
+          title="In Progress"
+          todos={todos.filter(todo => todo.category === 'inProgress')}
+          handleToggleComplete={handleToggleComplete}
+        />
+        <TodoColumn
+          title="Completed Tasks"
+          todos={todos.filter(todo => todo.category === 'completed')}
+          handleToggleComplete={handleToggleComplete}
+          completed
+        />
       </div>
     </div>
   );
