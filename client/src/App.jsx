@@ -6,13 +6,7 @@ import Login from './components/Login';
 import Logout from './components/Logout';
 import NotFound from './components/NotFound';
 import Header from './components/Header';
-
-const Home = ({ user }) => (
-  <div className="container mx-auto p-4">
-    <Header user={user} handleLogout={() => {}} /> {/* Dummy handleLogout */}
-    <h2>Добро пожаловать, {user ? user.name : 'Гость'}!</h2>
-  </div>
-);
+import Home from './components/Home';
 
 const App = () => {
   const isAuthenticated = !!localStorage.getItem('token'); // Проверка аутентификации
