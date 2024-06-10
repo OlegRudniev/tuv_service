@@ -14,12 +14,24 @@ const Header = ({ user, handleLogout }) => {
 
   return (
     <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
-      <h1 className="text-xl">Todo App</h1>
-      <nav>
+      <div className="flex items-center space-x-4">
+        <img src="/path/to/logo.png" alt="Logo" className="h-10" />
+        <h1 className="text-xl font-bold">TUV Service</h1>
+        <nav>
+          <Link to="/" className="hover:underline mr-4">Главная</Link>
+          <Link to="/todos" className="hover:underline mr-4">Список задач</Link>
+        </nav>
+      </div>
+      <div>
         {user ? (
           <>
             <span className="mr-4">Welcome, {user.username}</span>
-            <button onClick={handleLogout} className="mr-4 p-2 bg-red-500 rounded">Logout</button>
+            <button
+              onClick={handleLogout}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+            >
+              Logout
+            </button>
           </>
         ) : (
           <>
@@ -27,7 +39,7 @@ const Header = ({ user, handleLogout }) => {
             <button onClick={handleRegisterClick} className="p-2 bg-green-500 rounded">Register</button>
           </>
         )}
-      </nav>
+      </div>
     </header>
   );
 };
