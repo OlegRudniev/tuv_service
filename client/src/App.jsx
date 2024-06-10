@@ -15,8 +15,8 @@ const App = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/todos" element={isAuthenticated ? <TodoList /> : <Navigate to="/login" />} />
-        <Route path="/" element={<Navigate to={isAuthenticated ? "/todos" : "/login"} />} />
+        <Route path="/todos" element={isAuthenticated ? <TodoList /> : <Navigate to="/login" replace />} />
+        <Route path="/" element={<Navigate to={isAuthenticated ? "/todos" : "/login"} replace />} />
         <Route path="*" element={<NotFound />} /> {/* Перенаправление на страницу 404 для всех несуществующих маршрутов */}
       </Routes>
     </Router>
