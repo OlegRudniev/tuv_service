@@ -20,7 +20,7 @@ const Header = ({ user, handleLogout }) => {
         <Link to="/todos" className="hover:underline">Список задач</Link>
         {user ? (
           <>
-            <span>{user.name}</span> {/* Отображение имени пользователя */}
+            <span>{user.username}</span> {/* Отображение имени пользователя */}
             <button
               onClick={handleLogoutClick}
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
