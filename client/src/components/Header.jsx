@@ -18,7 +18,7 @@ const Header = ({ user, handleLogout }) => {
       <nav>
         {user ? (
           <>
-            <span className="mr-4">Welcome, {user.name}</span>
+            <span className="mr-4">Welcome, {user.username}</span>
             <button onClick={handleLogout} className="mr-4 p-2 bg-red-500 rounded">Logout</button>
           </>
         ) : (
