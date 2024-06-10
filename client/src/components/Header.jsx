@@ -4,37 +4,30 @@ import { Link, useNavigate } from 'react-router-dom';
 const Header = ({ user, handleLogout }) => {
   const navigate = useNavigate();
 
-  const handleLogoutClick = () => {
-    handleLogout();
+  const handleLoginClick = () => {
     navigate('/login');
+  };
+
+  const handleRegisterClick = () => {
+    navigate('/register');
   };
 
   return (
     <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
-      <div className="flex items-center space-x-4">
-        <img src="/path/to/logo.png" alt="Logo" className="h-10" />
-        <h1 className="text-xl font-bold">TUV Service</h1>
-      </div>
-      <div className="flex items-center space-x-4">
-        <Link to="/" className="hover:underline">Главная</Link>
-        <Link to="/todos" className="hover:underline">Список задач</Link>
+      <h1 className="text-xl">Todo App</h1>
+      <nav>
         {user ? (
           <>
-            <span>{user.username}</span> {/* Отображение имени пользователя */}
-            <button
-              onClick={handleLogoutClick}
-              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-            >
-              Logout
-            </button>
+            <span className="mr-4">Welcome, {user.name}</span>
+            <button onClick={handleLogout} className="mr-4 p-2 bg-red-500 rounded">Logout</button>
           </>
         ) : (
-          <div className="space-x-4">
-            <Link to="/login" className="hover:underline">Login</Link>
-            <Link to="/register" className="hover:underline">Register</Link>
-          </div>
+          <>
+            <button onClick={handleLoginClick} className="mr-4 p-2 bg-blue-500 rounded">Login</button>
+            <button onClick={handleRegisterClick} className="p-2 bg-green-500 rounded">Register</button>
+          </>
         )}
-      </div>
+      </nav>
     </header>
   );
 };

@@ -10,9 +10,17 @@ import TodoDetail from './components/TodoDetail';
 import NotFound from './components/NotFound';
 
 const App = () => {
+  const user = JSON.parse(localStorage.getItem('user'));
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.reload(); // Обновляем страницу после выхода
+  };
+
   return (
     <Router>
-      <Header />
+      <Header user={user} handleLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />

@@ -25,12 +25,6 @@ const TodoList = () => {
     setUser(JSON.parse(localStorage.getItem('user')));
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    navigate('/login');
-  };
-
   const handleAddTodo = async (e) => {
     e.preventDefault();
     if (newTodo.trim() === '') return;
@@ -65,7 +59,11 @@ const TodoList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Header user={user} handleLogout={handleLogout} />
+      <Header user={user} handleLogout={() => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+        navigate('/login');
+      }} />
       <TodoForm
         newTodo={newTodo}
         setNewTodo={setNewTodo}
