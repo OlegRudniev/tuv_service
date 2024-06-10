@@ -20,6 +20,7 @@ const Register = () => {
       setError('');
       const loginRes = await axios.post('/api/auth/login', form); // Автоматический вход после регистрации
       localStorage.setItem('token', loginRes.data.token);
+      localStorage.setItem('user', JSON.stringify(loginRes.data.result)); // Сохранение информации о пользователе
       navigate('/todos'); // Перенаправление после успешной регистрации
     } catch (err) {
       setError('Ошибка при регистрации. Проверьте правильность ввода данных.');

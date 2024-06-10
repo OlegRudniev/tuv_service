@@ -16,6 +16,7 @@ const Login = () => {
     try {
       const res = await axios.post('/api/auth/login', form);
       localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.result)); // Сохранение информации о пользователе
       navigate('/todos'); // Перенаправление после успешной авторизации
     } catch (err) {
       setError('Ошибка при входе. Проверьте правильность ввода данных.');
