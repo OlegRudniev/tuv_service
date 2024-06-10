@@ -1,20 +1,17 @@
 import dotenv from 'dotenv';
 dotenv.config();
 
-
 import express from 'express';
 import mongoose from 'mongoose';
 
 import authRoutes from './routes/auth.js';
 import todoRoutes from './routes/todos.js';
 
-
-
 const app = express();
 
 app.use(express.json());
 
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
