@@ -5,6 +5,7 @@ import axios from 'axios';
 const TodoList = () => {
   const [todos, setTodos] = useState([]);
   const [newTodo, setNewTodo] = useState('');
+  const [category, setCategory] = useState('upcoming');
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -31,11 +32,12 @@ const TodoList = () => {
     e.preventDefault();
     if (newTodo.trim() === '') return;
     const token = localStorage.getItem('token');
-    const res = await axios.post('/api/todos', { text: newTodo }, {
+    const res = await axios.post('/api/todos', { text: newTodo, category }, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setTodos([...todos, res.data]);
     setNewTodo('');
+    setCategory('upcoming');
   };
 
   const handleToggleComplete = async (id) => {
@@ -59,7 +61,7 @@ const TodoList = () => {
           </button>
         </div>
       )}
-      <form onSubmit={handleAddTodo} className="flex mb-4">
+      <form onSubmit={handleAddTodo} className="flex mb-4 space-x-2">
         <input
           type="text"
           value={newTodo}
@@ -67,6 +69,15 @@ const TodoList = () => {
           placeholder="Add a new task"
           className="w-full p-2 border border-gray-300 rounded-l"
         />
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+          className="p-2 border border-gray-300 rounded"
+        >
+          <option value="upcoming">Upcoming</option>
+          <option value="inProgress">In Progress</option>
+          <option value="completed">Completed</option>
+        </select>
         <button
           type="submit"
           className="bg-blue-500 text-white px-4 py-2 rounded-r hover:bg-blue-600"
@@ -74,21 +85,62 @@ const TodoList = () => {
           Add
         </button>
       </form>
-      <ul className="space-y-2">
-        {todos.map(todo => (
-          <li key={todo._id} className={`p-2 border rounded ${todo.completed ? 'bg-green-100' : 'bg-gray-100'}`}>
-            <div className="flex justify-between items-center">
-              <span className="text-black">{todo.text}</span>
-              <button
-                onClick={() => handleToggleComplete(todo._id)}
-                className={`ml-4 px-2 py-1 rounded ${todo.completed ? 'bg-green-500 text-white' : 'bg-gray-300'}`}
-              >
-                {todo.completed ? 'Completed' : 'Incomplete'}
-              </button>
-            </div>
-          </li>
-        ))}
-      </ul>
+      <div className="flex space-x-4">
+        <div className="w-1/3">
+          <h2 className="text-xl font-bold mb-2">Upcoming Tasks</h2>
+          <ul className="space-y-2">
+            {todos.filter(todo => todo.category === 'upcoming').map(todo => (
+              <li key={todo._id} className="p-2 border rounded bg-gray-100">
+                <div className="flex justify-between items-center">
+                  <span className="text-black">{todo.text}</span>
+                  <button
+                    onClick={() => handleToggleComplete(todo._id)}
+                    className={`ml-4 px-2 py-1 rounded ${todo.completed ? 'bg-green-500 text-white' : 'bg-gray-300'}`}
+                  >
+                    {todo.completed ? 'Completed' : 'Incomplete'}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="w-1/3">
+          <h2 className="text-xl font-bold mb-2">In Progress</h2>
+          <ul className="space-y-2">
+            {todos.filter(todo => todo.category === 'inProgress').map(todo => (
+              <li key={todo._id} className="p-2 border rounded bg-gray-100">
+                <div className="flex justify-between items-center">
+                  <span className="text-black">{todo.text}</span>
+                  <button
+                    onClick={() => handleToggleComplete(todo._id)}
+                    className={`ml-4 px-2 py-1 rounded ${todo.completed ? 'bg-green-500 text-white' : 'bg-gray-300'}`}
+                  >
+                    {todo.completed ? 'Completed' : 'Incomplete'}
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="w-1/3">
+          <h2 className="text-xl font-bold mb-2">Completed Tasks</h2>
+          <ul className="space-y-2">
+            {todos.filter(todo => todo.category === 'completed').map(todo => (
+              <li key={todo._id} className="p-2 border rounded bg-green-100">
+                <div className="flex justify-between items-center">
+                  <span className="text-black">{todo.text}</span>
+                  <button
+                    onClick={() => handleToggleComplete(todo._id)}
+                    className="ml-4 px-2 py-1 rounded bg-green-500 text-white"
+                  >
+                    Completed
+                  </button>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </div>
   );
 };
