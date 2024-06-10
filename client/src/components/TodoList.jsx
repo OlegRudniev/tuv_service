@@ -53,7 +53,7 @@ const TodoList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Header user={user} handleLogout={handleLogout} />
+      <Header user={user} handleLogout={handleLogout} /> {/* Header отображается */}
       <TodoForm
         newTodo={newTodo}
         setNewTodo={setNewTodo}

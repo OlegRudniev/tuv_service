@@ -16,6 +16,8 @@ const Header = ({ user, handleLogout }) => {
         <h1 className="text-xl font-bold">TUV Service</h1>
       </div>
       <div className="flex items-center space-x-4">
+        <Link to="/" className="hover:underline">Главная</Link>
+        <Link to="/todos" className="hover:underline">Список задач</Link>
         {user ? (
           <>
             <span>{user.name}</span> {/* Отображение имени пользователя */}
