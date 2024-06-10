@@ -78,7 +78,7 @@ const TodoList = () => {
         {todos.map(todo => (
           <li key={todo._id} className={`p-2 border rounded ${todo.completed ? 'bg-green-100' : 'bg-gray-100'}`}>
             <div className="flex justify-between items-center">
-              <span>{todo.text}</span>
+              <span className="text-black">{todo.text}</span>
               <button
                 onClick={() => handleToggleComplete(todo._id)}
                 className={`ml-4 px-2 py-1 rounded ${todo.completed ? 'bg-green-500 text-white' : 'bg-gray-300'}`}
