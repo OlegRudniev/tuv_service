@@ -28,16 +28,38 @@ const Register = () => {
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      {message && <p>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <input name="username" value={form.username} onChange={handleChange} placeholder="Username" />
-        <input name="password" type="password" value={form.password} onChange={handleChange} placeholder="Password" />
-        <button type="submit">Register</button>
-      </form>
-      <p>Already have an account? <a href="/login">Login</a></p>
+    <div className="flex justify-center items-center h-screen bg-gray-100">
+      <div className="w-full max-w-md bg-white p-8 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
+        {message && <p className="text-green-500 mb-4">{message}</p>}
+        {error && <p className="text-red-500 mb-4">{error}</p>}
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <input
+            name="username"
+            value={form.username}
+            onChange={handleChange}
+            placeholder="Username"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <input
+            name="password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            placeholder="Password"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+          >
+            Register
+          </button>
+        </form>
+        <p className="mt-4 text-center">
+          Already have an account? <a href="/login" className="text-blue-500">Login</a>
+        </p>
+      </div>
     </div>
   );
 };
