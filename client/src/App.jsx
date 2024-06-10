@@ -12,6 +12,10 @@ const App = () => {
   const isAuthenticated = !!localStorage.getItem('token'); // Проверка аутентификации
   const user = isAuthenticated ? JSON.parse(localStorage.getItem('user')) : null;
 
+  // Логирование значений для проверки
+  console.log("User:", user);
+  console.log("isAuthenticated:", isAuthenticated);
+
   return (
     <Router>
       <Routes>
