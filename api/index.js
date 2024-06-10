@@ -20,3 +20,8 @@ app.use('/api/todos', todoRoutes);
 
 const port = process.env.PORT || 5000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
+
+// Обработка всех остальных маршрутов для React-приложения
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
