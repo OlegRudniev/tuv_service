@@ -4,6 +4,7 @@ dotenv.config();
 import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 import authRoutes from './routes/auth.js';
 import todoRoutes from './routes/todos.js';
@@ -18,6 +19,10 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use('/api/auth', authRoutes);
 app.use('/api/todos', todoRoutes);
+
+// Получение текущего каталога в ES-модулях
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, 'client', 'build')));
