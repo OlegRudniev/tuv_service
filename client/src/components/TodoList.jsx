@@ -59,6 +59,10 @@ const TodoList = () => {
     setTodos(todos.map(todo => todo._id === id ? res.data : todo));
   };
 
+  const handleViewDetails = (id) => {
+    navigate(`/todo/${id}`);
+  };
+
   return (
     <div className="container mx-auto p-4">
       <Header user={user} handleLogout={handleLogout} />
@@ -75,18 +79,21 @@ const TodoList = () => {
           todos={todos.filter(todo => todo.category === 'upcoming')}
           handleToggleComplete={handleToggleComplete}
           handleUpdateTodo={handleUpdateTodo}
+          handleViewDetails={handleViewDetails}
         />
         <TodoColumn
           title="In Progress"
           todos={todos.filter(todo => todo.category === 'inProgress')}
           handleToggleComplete={handleToggleComplete}
           handleUpdateTodo={handleUpdateTodo}
+          handleViewDetails={handleViewDetails}
         />
         <TodoColumn
           title="Completed Tasks"
           todos={todos.filter(todo => todo.category === 'completed')}
           handleToggleComplete={handleToggleComplete}
           handleUpdateTodo={handleUpdateTodo}
+          handleViewDetails={handleViewDetails}
           completed
         />
       </div>

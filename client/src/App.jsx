@@ -1,30 +1,26 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
-import TodoList from './components/TodoList';
-import Register from './components/Register';
-import Login from './components/Login';
-import Logout from './components/Logout';
-import NotFound from './components/NotFound';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Home from './components/Home';
+import Login from './components/Login';
+import Logout from './components/Logout';
+import Register from './components/Register';
+import TodoList from './components/TodoList';
+import TodoDetail from './components/TodoDetail';
+import NotFound from './components/NotFound';
 
 const App = () => {
-  const isAuthenticated = !!localStorage.getItem('token'); // Проверка аутентификации
-  const user = isAuthenticated ? JSON.parse(localStorage.getItem('user')) : null;
-
-  // Логирование значений для проверки
-  console.log("User:", user);
-  console.log("isAuthenticated:", isAuthenticated);
-
   return (
     <Router>
+      <Header />
       <Routes>
-        <Route path="/register" element={<Register />} />
+        <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
         <Route path="/logout" element={<Logout />} />
-        <Route path="/todos" element={isAuthenticated ? <TodoList /> : <Navigate to="/login" replace />} />
-        <Route path="/" element={isAuthenticated ? <Home user={user} /> : <Navigate to="/login" replace />} />
-        <Route path="*" element={<NotFound />} /> {/* Перенаправление на страницу 404 для всех несуществующих маршрутов */}
+        <Route path="/register" element={<Register />} />
+        <Route path="/todos" element={<TodoList />} />
+        <Route path="/todo/:id" element={<TodoDetail />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </Router>
   );
