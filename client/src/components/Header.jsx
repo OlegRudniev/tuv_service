@@ -15,14 +15,17 @@ const Header = ({ user, handleLogout }) => {
         <img src="/path/to/logo.png" alt="Logo" className="h-10" />
         <h1 className="text-xl font-bold">TUV Service</h1>
       </div>
-      <div>
+      <div className="flex items-center space-x-4">
         {user ? (
-          <button
-            onClick={handleLogoutClick}
-            className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
-          >
-            Logout
-          </button>
+          <>
+            <span>{user.name}</span> {/* Отображение имени пользователя */}
+            <button
+              onClick={handleLogoutClick}
+              className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
+            >
+              Logout
+            </button>
+          </>
         ) : (
           <div className="space-x-4">
             <Link to="/login" className="hover:underline">Login</Link>
@@ -34,4 +37,4 @@ const Header = ({ user, handleLogout }) => {
   );
 };
 
-export default Header; // Убедитесь, что экспорт компонента выполнен правильно
+export default Header;
