@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import Header from './Header';
 import TodoForm from './TodoForm';
 import TodoColumn from './TodoColumn';
 
@@ -59,11 +58,6 @@ const TodoList = () => {
 
   return (
     <div className="container mx-auto p-4">
-      <Header user={user} handleLogout={() => {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/login');
-      }} />
       <TodoForm
         newTodo={newTodo}
         setNewTodo={setNewTodo}
