@@ -1,3 +1,6 @@
+import React from 'react';
+
+
 const Home = ({ user }) => {
   return (
     <div className="container mx-auto p-4">
@@ -5,3 +8,5 @@ const Home = ({ user }) => {
     </div>
   );
 };
+
+export default Home;
