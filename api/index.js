@@ -5,12 +5,14 @@ import express from 'express';
 import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import cors from 'cors';  // Импортируйте cors
 
 import authRoutes from './routes/auth.js';
 import todoRoutes from './routes/todos.js';
 
 const app = express();
 
+app.use(cors());  // Разрешите CORS для всех запросов
 app.use(express.json());
 
 console.log('MONGODB_URI:', process.env.MONGODB_URI);
