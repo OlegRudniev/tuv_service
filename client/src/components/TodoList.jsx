@@ -14,7 +14,7 @@ const TodoList = () => {
   useEffect(() => {
     const fetchTodos = async () => {
       const token = localStorage.getItem('token');
-      const res = await axios.get('/api/todos', {
+      const res = await axios.get(`${import.meta.env.VITE_API_URL}/todos`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setTodos(res.data);
@@ -28,7 +28,7 @@ const TodoList = () => {
     e.preventDefault();
     if (newTodo.trim() === '') return;
     const token = localStorage.getItem('token');
-    const res = await axios.post('/api/todos', { text: newTodo, category }, {
+    const res = await axios.post(`${import.meta.env.VITE_API_URL}/todos`, { text: newTodo, category }, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setTodos([...todos, res.data]);
@@ -38,7 +38,7 @@ const TodoList = () => {
 
   const handleToggleComplete = async (id) => {
     const token = localStorage.getItem('token');
-    const res = await axios.patch(`/api/todos/${id}/toggle`, {}, {
+    const res = await axios.patch(`${import.meta.env.VITE_API_URL}/todos/${id}/toggle`, {}, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setTodos(todos.map(todo => todo._id === id ? res.data : todo));
@@ -46,7 +46,7 @@ const TodoList = () => {
 
   const handleUpdateTodo = async (id, updatedTodo) => {
     const token = localStorage.getItem('token');
-    const res = await axios.put(`/api/todos/${id}`, updatedTodo, {
+    const res = await axios.put(`${import.meta.env.VITE_API_URL}/todos/${id}`, updatedTodo, {
       headers: { Authorization: `Bearer ${token}` }
     });
     setTodos(todos.map(todo => todo._id === id ? res.data : todo));
@@ -72,6 +72,29 @@ const TodoList = () => {
           handleToggleComplete={handleToggleComplete}
           handleUpdateTodo={handleUpdateTodo}
           handleViewDetails={handleViewDetails}
+        />
+        <TodoColumn
+          title="In Progress"
+          todos={todos.filter(todo => todo.category === 'inProgress')}
+          handleToggleComplete={handleToggleComplete}
+          handleUpdateTodo={handleUpdateTodo}
+          handleViewDetails={handleViewDetails}
+        />
+        <TodoColumn
+          title="Completed Tasks"
+          todos={todos.filter(todo => todo.category === 'completed')}
+          handleToggleComplete={handleToggleComplete}
+          handleUpdateTodo={handleUpdateTodo}
+          handleViewDetails={handleViewDetails}
+          completed
+        />
+      </div>
+    </div>
+  );
+};
+
+export default TodoList;
+
         />
         <TodoColumn
           title="In Progress"
