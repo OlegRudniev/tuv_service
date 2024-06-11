@@ -95,25 +95,4 @@ const TodoList = () => {
 
 export default TodoList;
 
-        />
-        <TodoColumn
-          title="In Progress"
-          todos={todos.filter(todo => todo.category === 'inProgress')}
-          handleToggleComplete={handleToggleComplete}
-          handleUpdateTodo={handleUpdateTodo}
-          handleViewDetails={handleViewDetails}
-        />
-        <TodoColumn
-          title="Completed Tasks"
-          todos={todos.filter(todo => todo.category === 'completed')}
-          handleToggleComplete={handleToggleComplete}
-          handleUpdateTodo={handleUpdateTodo}
-          handleViewDetails={handleViewDetails}
-          completed
-        />
-      </div>
-    </div>
-  );
-};
-
 export default TodoList;
