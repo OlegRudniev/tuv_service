@@ -15,7 +15,7 @@ const Header = ({ user, handleLogout }) => {
   return (
     <header className="flex justify-between items-center p-4 bg-gray-800 text-white">
       <div className="flex items-center space-x-4">
-        <img src="/path/to/logo.png" alt="Logo" className="h-10" />
+        <img src="#" alt="Logo" className="h-10" />
         <h1 className="text-xl font-bold">TUV Service</h1>
         <nav>
           <Link to="/" className="hover:underline mr-4">Главная</Link>
