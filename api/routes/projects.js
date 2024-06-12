@@ -1,6 +1,6 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const Project = require('../models/Project');
+import Project from '../models/Project.js';
 
 // Получить все проекты
 router.get('/', async (req, res) => {
@@ -27,4 +27,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-module.exports = router;
+export default router;
