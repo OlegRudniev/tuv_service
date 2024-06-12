@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import errorHandler from './middleware/errorHandler.js';
 
 import authRoutes from './routes/auth.js';
 import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
