@@ -8,9 +8,9 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 
 import authRoutes from './routes/auth.js';
-
 import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
 
+import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
@@ -27,7 +27,6 @@ mongoose.connect(process.env.MONGODB_URI)
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectsRouter); // Используем маршруты проектов
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -36,6 +35,8 @@ app.use(express.static(path.join(__dirname, 'client', 'build')));
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
 });
+
+app.use(errorHandler); // Добавьте middleware для обработки ошибок
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
