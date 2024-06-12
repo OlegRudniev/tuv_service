@@ -18,7 +18,7 @@ const Header = ({ user, handleLogout }) => {
         <img src="#" alt="Logo" className="h-10" />
         <h1 className="text-xl font-bold">TUV Service</h1>
         <nav>
-          <Link to="/" className="hover:underline mr-4">Главная</Link>
+          <Link to="/home" className="hover:underline mr-4">Главная</Link>
           <Link to="/todos" className="hover:underline mr-4">Список задач</Link>
         </nav>
       </div>
