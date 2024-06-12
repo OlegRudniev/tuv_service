@@ -57,8 +57,8 @@ router.get('/:id/tasks', async (req, res) => {
 // Добавить новую задачу к проекту
 router.post('/:id/tasks', async (req, res) => {
   try {
-    const { name, status, projectId } = req.body;
-    const newTask = new Task({ name, status, projectId });
+    const { name, status, startTime, endTime, notes } = req.body;
+    const newTask = new Task({ name, status, projectId: req.params.id, startTime, endTime, notes });
     await newTask.save();
     res.status(201).json(newTask);
   } catch (error) {
@@ -70,6 +70,7 @@ router.post('/:id/tasks', async (req, res) => {
 // Получить задачу по ID
 router.get('/tasks/:taskId', async (req, res) => {
   try {
+    console.log('Fetching task with ID:', req.params.taskId); // Дополнительное логирование
     const task = await Task.findById(req.params.taskId);
     if (!task) {
       console.error('Task not found:', req.params.taskId);
@@ -78,6 +79,7 @@ router.get('/tasks/:taskId', async (req, res) => {
     res.json(task);
   } catch (error) {
     console.error('Error fetching task:', error);
+    console.error('Error details:', error.stack); // Дополнительное логирование
     res.status(500).json({ message: 'Ошибка сервера' });
   }
 });
