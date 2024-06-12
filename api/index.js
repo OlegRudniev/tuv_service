@@ -9,13 +9,13 @@ import winston from 'winston';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import authRoutes from './routes/auth.js';
-import projectsRouter from './routes/projects.js'; 
+import projectsRouter from './routes/projects.js';
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
 const corsOptions = {
-  origin: 'https://tuv-service.vercel.app',
+  origin: ['http://localhost:3000', 'https://tuv-service.vercel.app'],
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true
