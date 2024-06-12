@@ -9,14 +9,9 @@ const ProjectsPage = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get(`https://tuv-service.vercel.app/api/projects`)
+        axios.get(`${import.meta.env.VITE_API_URL}/projects`)
             .then(response => {
-                // Проверка, что response.data является массивом
-                if (Array.isArray(response.data)) {
-                    setProjects(response.data);
-                } else {
-                    console.error('Ответ не является массивом:', response.data);
-                }
+                setProjects(response.data);
             })
             .catch(error => {
                 console.error('Ошибка при получении проектов:', error);
@@ -30,7 +25,7 @@ const ProjectsPage = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        axios.post(`https://tuv-service.vercel.app/api/projects`, newProject)
+        axios.post(`${import.meta.env.VITE_API_URL}/projects`, newProject)
             .then(response => {
                 setProjects([...projects, response.data]);
             })

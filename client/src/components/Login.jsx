@@ -15,7 +15,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(`https://tuv-service.vercel.app/api/auth/login`, form);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/login`, form);
       setMessage(res.data.message);
       setError('');
       localStorage.setItem('token', res.data.token);
@@ -26,6 +26,7 @@ const Login = () => {
       console.error(err);
     }
   };
+  
 
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
@@ -62,3 +63,5 @@ const Login = () => {
 };
 
 export default Login;
+
+
