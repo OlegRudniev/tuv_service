@@ -16,7 +16,15 @@ import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-app.use(cors()); // Разрешите CORS для всех запросов
+// Настройка CORS с указанием домена
+const corsOptions = {
+  origin: 'https://tuv-service.vercel.app', // замените на ваш домен
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  allowedHeaders: 'Content-Type,Authorization'
+};
+app.use(cors(corsOptions)); // Разрешите CORS для всех запросов с указанием опций
+
 app.use(express.json());
 
 // Настройка morgan для логирования HTTP-запросов
