@@ -26,6 +26,15 @@ const corsOptions = {
 app.use(cors(corsOptions)); // Настройка CORS
 app.options('*', cors(corsOptions)); // Обработка preflight запросов
 
+// Добавление дополнительных заголовков для всех маршрутов
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "https://tuv-service.vercel.app");
+  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.header("Access-Control-Allow-Credentials", "true");
+  next();
+});
+
 app.use(express.json());
 
 // Настройка morgan для логирования HTTP-запросов
