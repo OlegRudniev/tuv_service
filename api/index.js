@@ -8,7 +8,7 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 
 import authRoutes from './routes/auth.js';
-import todoRoutes from './routes/todos.js';
+
 import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
 
 
@@ -26,7 +26,7 @@ mongoose.connect(process.env.MONGODB_URI)
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectsRouter); // Используем маршруты проектов
-app.use('/api/todos', todoRoutes);
+
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
