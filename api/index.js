@@ -25,6 +25,7 @@ mongoose.connect(process.env.MONGODB_URI)
   .catch(err => console.log(err));
 
 app.use('/api/auth', authRoutes);
+app.use('/api/projects', projectsRouter); // Используем маршруты проектов
 app.use('/api/todos', todoRoutes);
 
 const __filename = fileURLToPath(import.meta.url);
