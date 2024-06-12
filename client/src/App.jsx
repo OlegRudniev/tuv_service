@@ -4,6 +4,7 @@ import Header from './components/Header';
 import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
+import ProjectsPage from './components/ProjectsPage';
 import NotFound from './components/NotFound';
 
 const App = () => (
@@ -12,6 +13,7 @@ const App = () => (
     <Routes>
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+<Route path="/projects" element={<ProjectsPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
