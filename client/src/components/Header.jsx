@@ -2,9 +2,7 @@ import ProjectsPage from './ProjectsPage';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Header = () => {
-import React from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+
 
 const Header = () => {
   const navigate = useNavigate();
@@ -61,8 +59,5 @@ const Header = () => {
 
 export default Header;
 
-  );
-};
 
-export default Header;
 
