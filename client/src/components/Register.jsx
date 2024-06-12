@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 const Register = () => {
-  const [form, setForm] = useState({ username: '', password: '' });
+  const [form, setForm] = useState({ username: '', password: '', confirmPassword: '' });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -14,14 +14,18 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (form.password !== form.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
     try {
-      const res = await axios.post('/api/auth/register', form);
+      const res = await axios.post(`${import.meta.env.VITE_API_URL}/auth/register`, form);
       setMessage(res.data.message);
       setError('');
-      const loginRes = await axios.post('/api/auth/login', form); // Автоматический вход после регистрации
-      localStorage.setItem('token', loginRes.data.token);
-      localStorage.setItem('user', JSON.stringify(loginRes.data.result)); // Сохранение информации о пользователе
-      navigate('/todos'); // Перенаправление после успешной регистрации
+      localStorage.setItem('token', res.data.token);
+      localStorage.setItem('user', JSON.stringify(res.data.result));
+      navigate('/home');
     } catch (err) {
       setError('Ошибка при регистрации. Проверьте правильность ввода данных.');
       console.error(err);
@@ -50,6 +54,14 @@ const Register = () => {
             placeholder="Password"
             className="w-full p-2 border border-gray-300 rounded"
           />
+          <input
+            name="confirmPassword"
+            type="password"
+            value={form.confirmPassword}
+            onChange={handleChange}
+            placeholder="Confirm Password"
+            className="w-full p-2 border border-gray-300 rounded"
+          />
           <button
             type="submit"
             className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
@@ -57,12 +69,13 @@ const Register = () => {
             Register
           </button>
         </form>
-        <p className="mt-4 text-center">
-          Already have an account? <a href="/login" className="text-blue-500">Login</a>
-        </p>
       </div>
     </div>
   );
+};
+
+export default Register;
+
 };
 
 export default Register;
