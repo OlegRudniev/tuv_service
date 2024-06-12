@@ -1,49 +1,59 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+// client/src/components/TasksPage.jsx
+import React, { useEffect, useState } from 'react';
+import { getTasksByProjectId, createTask } from '../services/taskService';
 
-const TasksPage = () => {
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+const TasksPage = ({ projectId }) => {
+  const [tasks, setTasks] = useState([]);
+  const [taskName, setTaskName] = useState('');
+  const [taskStatus, setTaskStatus] = useState('');
 
   useEffect(() => {
-    axios.get(`${import.meta.env.VITE_API_URL}/projects`)
-      .then(response => {
-        if (Array.isArray(response.data)) {
-          setProjects(response.data);
-        } else {
-          throw new Error('Unexpected response format');
-        }
-      })
-      .catch(error => {
-        console.error('Ошибка при получении проектов:', error);
-        setError('Ошибка при получении проектов');
-      });
-  }, []);
+    const fetchTasks = async () => {
+      try {
+        const data = await getTasksByProjectId(projectId);
+        setTasks(data);
+      } catch (error) {
+        console.error('Failed to fetch tasks:', error);
+      }
+    };
+    fetchTasks();
+  }, [projectId]);
 
-  const handleProjectClick = (id) => {
-    navigate(`/tasks/${id}`);
+  const handleTaskSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const newTask = await createTask(projectId, { name: taskName, status: taskStatus });
+      setTasks([...tasks, newTask]);
+      setTaskName('');
+      setTaskStatus('');
+    } catch (error) {
+      console.error('Failed to create task:', error);
+    }
   };
 
-  if (error) {
-    return <div>{error}</div>;
-  }
-
   return (
-    <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Выберите проект</h1>
-      <div className="projects-container grid grid-cols-1 md:grid-cols-3 gap-4">
-        {projects.map(project => (
-          <div
-            key={project._id}
-            className="border p-2 mb-2 cursor-pointer"
-            onClick={() => handleProjectClick(project._id)}
-          >
-            {project.name}
-          </div>
+    <div>
+      <h1>Tasks</h1>
+      <form onSubmit={handleTaskSubmit}>
+        <input
+          type="text"
+          value={taskName}
+          onChange={(e) => setTaskName(e.target.value)}
+          placeholder="Task Name"
+        />
+        <input
+          type="text"
+          value={taskStatus}
+          onChange={(e) => setTaskStatus(e.target.value)}
+          placeholder="Task Status"
+        />
+        <button type="submit">Create Task</button>
+      </form>
+      <ul>
+        {tasks.map((task) => (
+          <li key={task._id}>{task.name}</li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 };
