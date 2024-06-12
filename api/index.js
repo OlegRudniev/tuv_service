@@ -11,19 +11,20 @@ import winston from 'winston';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import authRoutes from './routes/auth.js';
-import projectsRouter from './routes/projects.js';
+import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-// Настройка CORS с указанием домена
 const corsOptions = {
-  origin: 'tuv-service.vercel.app', // замените на ваш домен
-  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-  credentials: true,
-  allowedHeaders: 'Content-Type,Authorization'
+  origin: 'https://tuv-service.vercel.app', // замените на ваш домен
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
+  allowedHeaders: 'Content-Type,Authorization',
+  credentials: true
 };
-app.use(cors(corsOptions)); // Разрешите CORS для всех запросов с указанием опций
+
+app.use(cors(corsOptions)); // Настройка CORS
+app.options('*', cors(corsOptions)); // Обработка preflight запросов
 
 app.use(express.json());
 
@@ -58,7 +59,7 @@ app.use('/api/projects', projectsRouter);
 app.use(
   '/',
   createProxyMiddleware({
-    target: 'http://localhost:3000',
+    target: 'http://localhost:3000', // адрес вашего Vite-разработческого сервера
     changeOrigin: true,
     ws: true,
     logLevel: 'debug',
