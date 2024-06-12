@@ -20,7 +20,7 @@ const Login = () => {
       setError('');
       localStorage.setItem('token', res.data.token);
       localStorage.setItem('user', JSON.stringify(res.data.result));
-      navigate('/todos');
+      navigate('/home');
     } catch (err) {
       setError('Ошибка при входе. Проверьте правильность ввода данных.');
       console.error(err);
@@ -60,5 +60,8 @@ const Login = () => {
     </div>
   );
 };
+
+export default Login;
+
 
 export default Login;
