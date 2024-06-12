@@ -1,8 +1,9 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const projectSchema = new mongoose.Schema({
   name: { type: String, required: true },
   category: { type: String, enum: ['Выполнены', 'Выполняются', 'Будущие проекты'], required: true },
 });
 
-module.exports = mongoose.model('Project', projectSchema);
+const Project = mongoose.model('Project', projectSchema);
+export default Project;
