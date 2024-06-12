@@ -1,15 +1,16 @@
-import dotenv from 'dotenv';
+const dotenv = require('dotenv');
 dotenv.config({ path: './.env' });
 
-import express from 'express';
-import mongoose from 'mongoose';
-import path from 'path';
-import { fileURLToPath } from 'url';
-import cors from 'cors';  // Импортируйте cors
+const express = require('express');
+const mongoose = require('mongoose');
+const path = require('path');
+const { fileURLToPath } = require('url');
+const cors = require('cors');
 
-import authRoutes from './routes/auth.js';
-import todoRoutes from './routes/todos.js';
-import projectsRouter from './routes/projects.js';
+const authRoutes = require('./routes/auth');
+const todoRoutes = require('./routes/todos');
+const projectsRouter = require('./routes/projects'); // Используем require вместо import
+
 
 const app = express();
 
