@@ -18,7 +18,7 @@ const app = express();
 
 // Настройка CORS с указанием домена
 const corsOptions = {
-  origin: 'https://tuv-service.vercel.app', // замените на ваш домен
+  origin: 'tuv-service.vercel.app', // замените на ваш домен
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true,
   allowedHeaders: 'Content-Type,Authorization'
