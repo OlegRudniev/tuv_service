@@ -6,8 +6,6 @@ import mongoose from 'mongoose';
 import cors from 'cors';
 import morgan from 'morgan';
 import winston from 'winston';
-import { createProxyMiddleware } from 'http-proxy-middleware';
-
 import authRoutes from './routes/auth.js';
 import projectsRouter from './routes/projects.js';
 import errorHandler from './middleware/errorHandler.js';
@@ -45,19 +43,6 @@ mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTop
 
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectsRouter);
-
-app.use(
-  '/',
-  createProxyMiddleware({
-    target: 'http://localhost:3000',
-    changeOrigin: true,
-    ws: true,
-    logLevel: 'debug',
-    pathRewrite: {
-      '^/': '/'
-    },
-  })
-);
 
 app.use((err, req, res, next) => {
   console.error('Error middleware:', err.stack);
