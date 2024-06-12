@@ -7,7 +7,12 @@ const ProjectsPage = () => {
     useEffect(() => {
         // Fetch projects from the database on component mount
         fetch('/api/projects')
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
             .then(data => setProjects(data))
             .catch(error => console.error('Ошибка при получении проектов:', error));
     }, []);
@@ -90,4 +95,3 @@ const ProjectsPage = () => {
 };
 
 export default ProjectsPage;
-
