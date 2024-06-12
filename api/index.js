@@ -9,6 +9,7 @@ import cors from 'cors';  // Импортируйте cors
 
 import authRoutes from './routes/auth.js';
 import todoRoutes from './routes/todos.js';
+import projectsRouter from './routes/projects.js';
 
 const app = express();
 
