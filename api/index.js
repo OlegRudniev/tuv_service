@@ -3,44 +3,30 @@ dotenv.config({ path: './.env' });
 
 import express from 'express';
 import mongoose from 'mongoose';
-import path from 'path';
-import { fileURLToPath } from 'url';
 import cors from 'cors';
 import morgan from 'morgan';
 import winston from 'winston';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import authRoutes from './routes/auth.js';
-import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
+import projectsRouter from './routes/projects.js'; 
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
 const corsOptions = {
-  origin: 'https://tuv-service.vercel.app', // замените на ваш домен
+  origin: 'https://tuv-service.vercel.app',
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
   allowedHeaders: 'Content-Type,Authorization',
   credentials: true
 };
 
-app.use(cors(corsOptions)); // Настройка CORS
-app.options('*', cors(corsOptions)); // Обработка preflight запросов
-
-// Добавление дополнительных заголовков для всех маршрутов
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "https://tuv-service.vercel.app");
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS");
-  res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true");
-  next();
-});
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions));
 
 app.use(express.json());
-
-// Настройка morgan для логирования HTTP-запросов
 app.use(morgan('combined'));
 
-// Настройка winston для логирования ошибок
 const logger = winston.createLogger({
   level: 'error',
   format: winston.format.json(),
@@ -50,25 +36,20 @@ const logger = winston.createLogger({
   ]
 });
 
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-console.log('PORT:', process.env.PORT);
-
-mongoose.connect(process.env.MONGODB_URI)
+mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log('MongoDB connected'))
   .catch(err => {
     console.error('MongoDB connection error:', err);
     logger.error('MongoDB connection error:', err);
   });
 
-// Определение маршрутов API
 app.use('/api/auth', authRoutes);
 app.use('/api/projects', projectsRouter);
 
-// Прокси-запросы к React-разработческому серверу Vite
 app.use(
   '/',
   createProxyMiddleware({
-    target: 'http://localhost:3000', // адрес вашего Vite-разработческого сервера
+    target: 'http://localhost:3000',
     changeOrigin: true,
     ws: true,
     logLevel: 'debug',
@@ -78,14 +59,13 @@ app.use(
   })
 );
 
-// Middleware для обработки ошибок
 app.use((err, req, res, next) => {
-  console.error('Error middleware:', err.stack); // Дополнительное логирование
+  console.error('Error middleware:', err.stack);
   logger.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });
 });
 
-app.use(errorHandler); // Добавьте middleware для обработки ошибок
+app.use(errorHandler);
 
 const port = process.env.PORT || 8000;
 app.listen(port, () => console.log(`Server running on port ${port}`));
