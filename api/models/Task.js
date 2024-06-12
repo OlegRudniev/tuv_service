@@ -23,6 +23,9 @@ const taskSchema = new mongoose.Schema({
     },
     notes: {
         type: String,
+    },
+    description: {
+        type: String,
     }
 });
 
