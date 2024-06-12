@@ -2,6 +2,10 @@ import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
+import React from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+
+const Header = () => {
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem('user')); // Получение информации о пользователе из localStorage
 
@@ -26,12 +30,16 @@ const Header = () => {
         <h1 className="text-xl font-bold">TUV Service</h1>
         <nav>
           <Link to="/home" className="hover:underline mr-4">Главная</Link>
+          <Link to="/projects" className="hover:underline mr-4">Проекты</Link>
+          <Link to="/todos" className="hover:underline mr-4">Задачи</Link>
+          <Link to="/mail" className="hover:underline mr-4">Почта</Link>
+          <Link to="/chat" className="hover:underline mr-4">Чат</Link>
         </nav>
       </div>
       <div>
         {user ? (
           <>
-            <span className="mr-4"> {user.username}</span>
+            <span className="mr-4">Добро пожаловать, {user.username}</span>
             <button
               onClick={handleLogout}
               className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded"
@@ -47,6 +55,11 @@ const Header = () => {
         )}
       </div>
     </header>
+  );
+};
+
+export default Header;
+
   );
 };
 
