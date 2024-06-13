@@ -1,6 +1,6 @@
 // client/src/App.jsx
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'; // Используем Routes
 import Header from './components/Header';
 import Home from './components/Home';
 import Login from './components/Login';
@@ -16,16 +16,16 @@ const App = () => {
     <Router>
       <div>
         <Header />
-        <Switch>
-          <Route exact path="/" component={Home} />
-          <Route path="/login" component={Login} />
-          <Route path="/logout" component={Logout} />
-          <Route path="/register" component={Register} />
-          <Route path="/projects/:id" component={ProjectDetail} />
-          <Route path="/projects" component={ProjectsPage} />
-          <Route path="/tasks" component={TasksPage} />
-          <Route component={NotFound} />
-        </Switch>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/logout" element={<Logout />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/projects/:id" element={<ProjectDetail />} />
+          <Route path="/projects" element={<ProjectsPage />} />
+          <Route path="/tasks" element={<TasksPage />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
       </div>
     </Router>
   );
