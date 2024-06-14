@@ -91,7 +91,7 @@ const ProjectsPage = () => {
                         </div>
                     </>
                 } />
-                <Route path="/projects/:id" element={<ProjectDetail />} />
+                <Route path="/:id" element={<ProjectDetail />} />
             </Routes>
         </div>
     );
