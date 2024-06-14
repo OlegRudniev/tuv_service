@@ -1,6 +1,7 @@
 // client/src/components/ProjectsPage.jsx
 import React, { useEffect, useState } from 'react';
 import { getProjects, createProject } from '../services/projectService';
+import { Link } from 'react-router-dom';
 
 const ProjectsPage = () => {
   const [projects, setProjects] = useState([]);
@@ -51,7 +52,9 @@ const ProjectsPage = () => {
       </form>
       <ul>
         {projects.map((project) => (
-          <li key={project._id}>{project.name}</li>
+          <li key={project._id}>
+            <Link to={`/projects/${project._id}`}>{project.name}</Link>
+          </li>
         ))}
       </ul>
     </div>
