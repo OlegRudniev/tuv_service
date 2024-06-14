@@ -11,7 +11,7 @@ import winston from 'winston';
 import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import authRoutes from './routes/auth.js';
-import projectsRouter from './routes/projects.js';
+import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
 import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
@@ -50,7 +50,7 @@ app.use('/api/projects', projectsRouter);
 app.use(
   '/',
   createProxyMiddleware({
-    target: 'http://localhost:3000',
+    target: 'http://localhost:3000', // адрес вашего Vite-разработческого сервера
     changeOrigin: true,
     ws: true,
     logLevel: 'debug',
