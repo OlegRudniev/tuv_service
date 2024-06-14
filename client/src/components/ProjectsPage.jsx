@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 
 const ProjectsPage = () => {
     const [projects, setProjects] = useState([]);
@@ -7,13 +6,15 @@ const ProjectsPage = () => {
 
     useEffect(() => {
         // Fetch projects from the database on component mount
-        axios.get('/api/projects')
+        fetch('/api/projects')
             .then(response => {
-                setProjects(response.data);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
             })
-            .catch(error => {
-                console.error('Ошибка при получении проектов:', error);
-            });
+            .then(data => setProjects(data))
+            .catch(error => console.error('Ошибка при получении проектов:', error));
     }, []);
 
     const handleInputChange = (e) => {
@@ -24,13 +25,21 @@ const ProjectsPage = () => {
     const handleSubmit = (e) => {
         e.preventDefault();
         // Save new project to the database
-        axios.post('/api/projects', newProject)
-            .then(response => {
-                setProjects([...projects, response.data]);
-            })
-            .catch(error => {
-                console.error('Ошибка при добавлении проекта:', error);
-            });
+        fetch('/api/projects', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(newProject),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(data => setProjects([...projects, data]))
+        .catch(error => console.error('Ошибка при добавлении проекта:', error));
     };
 
     return (
@@ -65,19 +74,19 @@ const ProjectsPage = () => {
                 <div className="projects-column">
                     <h2 className="text-xl font-semibold mb-2">Будущие Проекты</h2>
                     {projects.filter(project => project.status === 'Будущий Проект').map(project => (
-                        <div key={project._id} className="border p-2 mb-2">{project.name}</div>
+                        <div key={project.id} className="border p-2 mb-2">{project.name}</div>
                     ))}
                 </div>
                 <div className="projects-column">
                     <h2 className="text-xl font-semibold mb-2">Выполняется</h2>
                     {projects.filter(project => project.status === 'Выполняется').map(project => (
-                        <div key={project._id} className="border p-2 mb-2">{project.name}</div>
+                        <div key={project.id} className="border p-2 mb-2">{project.name}</div>
                     ))}
                 </div>
                 <div className="projects-column">
                     <h2 className="text-xl font-semibold mb-2">Выполнено</h2>
                     {projects.filter(project => project.status === 'Выполнено').map(project => (
-                        <div key={project._id} className="border p-2 mb-2">{project.name}</div>
+                        <div key={project.id} className="border p-2 mb-2">{project.name}</div>
                     ))}
                 </div>
             </div>
