@@ -4,29 +4,22 @@ import axios from 'axios';
 
 const TaskDetail = () => {
     const { projectId, taskId } = useParams();
-    const [task, setTask] = useState({
-        name: '',
-        startTime: '',
-        endTime: '',
-        notes: '',
-        description: '',
-    });
+    const [task, setTask] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         axios.get(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`)
-          .then(response => {
-            setTask(response.data);
-            setLoading(false);
-          })
-          .catch(error => {
-            console.error('Ошибка при получении задачи:', error);
-            setError('Ошибка при получении задачи');
-            setLoading(false);
-          });
-      }, [taskId]);
-      
+            .then(response => {
+                setTask(response.data);
+                setLoading(false);
+            })
+            .catch(error => {
+                console.error('Ошибка при получении задачи:', error);
+                setError('Ошибка при получении задачи');
+                setLoading(false);
+            });
+    }, [taskId]);
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -90,15 +83,6 @@ const TaskDetail = () => {
                         value={task.notes || ''}
                         onChange={handleInputChange}
                         placeholder="Заметки"
-                        className="border p-2 w-full"
-                    ></textarea>
-                </div>
-                <div className="mb-2">
-                    <textarea
-                        name="description"
-                        value={task.description || ''}
-                        onChange={handleInputChange}
-                        placeholder="Описание задачи"
                         className="border p-2 w-full"
                     ></textarea>
                 </div>
