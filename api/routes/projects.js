@@ -64,6 +64,22 @@ router.post('/:id/tasks', async (req, res) => {
 // Получить задачу по ID
 router.get('/tasks/:taskId', async (req, res) => {
   try {
+    console.log(`Получение задачи с ID: ${req.params.taskId}`);
+    const task = await Task.findById(req.params.taskId);
+    if (!task) {
+      console.log('Задача не найдена');
+      return res.status(404).json({ message: 'Задача не найдена' });
+    }
+    res.json(task);
+  } catch (error) {
+    console.error('Ошибка при получении задачи:', error);
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// Обновить задачу
+router.get('/tasks/:taskId', async (req, res) => {
+  try {
     const task = await Task.findById(req.params.taskId);
     if (!task) {
       return res.status(404).json({ message: 'Задача не найдена' });
@@ -74,19 +90,6 @@ router.get('/tasks/:taskId', async (req, res) => {
   }
 });
 
-// Обновить задачу
-router.put('/tasks/:taskId', async (req, res) => {
-  try {
-    const { name, startTime, endTime, notes, status } = req.body;
-    const updatedTask = await Task.findByIdAndUpdate(
-      req.params.taskId,
-      { name, startTime, endTime, notes, status },
-      { new: true }
-    );
-    res.json(updatedTask);
-  } catch (error) {
-    res.status(500).json({ message: 'Ошибка сервера' });
-  }
-});
+
 
 export default router;
