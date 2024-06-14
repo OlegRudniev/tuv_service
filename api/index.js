@@ -8,7 +8,6 @@ import { fileURLToPath } from 'url';
 import cors from 'cors';
 import morgan from 'morgan';
 import winston from 'winston';
-import { createProxyMiddleware } from 'http-proxy-middleware';
 
 import authRoutes from './routes/auth.js';
 import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
@@ -16,7 +15,7 @@ import errorHandler from './middleware/errorHandler.js';
 
 const app = express();
 
-app.use(cors()); // Разрешите CORS для всех запросов
+app.use(cors());  // Разрешите CORS для всех запросов
 app.use(express.json());
 
 // Настройка morgan для логирования HTTP-запросов
@@ -37,32 +36,22 @@ console.log('PORT:', process.env.PORT);
 
 mongoose.connect(process.env.MONGODB_URI)
   .then(() => console.log('MongoDB connected'))
-  .catch(err => {
-    console.error('MongoDB connection error:', err);
-    logger.error('MongoDB connection error:', err);
-  });
+  .catch(err => console.log(err));
 
-// Определение маршрутов API
 app.use('/api/auth', authRoutes);
-app.use('/api/projects', projectsRouter);
+app.use('/api/projects', projectsRouter); // Используем маршруты проектов
 
-// Прокси-запросы к React-разработческому серверу Vite
-app.use(
-  '/',
-  createProxyMiddleware({
-    target: 'http://localhost:3000', // адрес вашего Vite-разработческого сервера
-    changeOrigin: true,
-    ws: true,
-    logLevel: 'debug',
-    pathRewrite: {
-      '^/': '/'
-    },
-  })
-);
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+app.use(express.static(path.join(__dirname, 'client', 'build')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+});
 
 // Middleware для обработки ошибок
 app.use((err, req, res, next) => {
-  console.error('Error middleware:', err.stack); // Дополнительное логирование
   logger.error(err.stack);
   res.status(500).json({ message: 'Internal Server Error' });
 });

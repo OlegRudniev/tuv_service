@@ -1,44 +1,111 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import { useParams } from 'react-router-dom'; // Используем useParams для получения параметров из URL
 
 const TaskDetail = () => {
-  const { taskId } = useParams(); // Получаем taskId из URL параметров
-  const [task, setTask] = useState(null);
-  const [error, setError] = useState(null);
+    const { projectId, taskId } = useParams();
+    const [task, setTask] = useState({
+        name: '',
+        startTime: '',
+        endTime: '',
+        notes: '',
+        description: '',
+    });
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
 
-  useEffect(() => {
-    const fetchTask = async () => {
-      try {
-        const response = await axios.get(`http://localhost:8000/api/tasks/${taskId}`);
-        setTask(response.data);
-      } catch (error) {
-        setError(error.response ? error.response.data.message : error.message);
-      }
+    useEffect(() => {
+        axios.get(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`)
+          .then(response => {
+            setTask(response.data);
+            setLoading(false);
+          })
+          .catch(error => {
+            console.error('Ошибка при получении задачи:', error);
+            setError('Ошибка при получении задачи');
+            setLoading(false);
+          });
+      }, [taskId]);
+      
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setTask({ ...task, [name]: value });
     };
 
-    if (taskId) {
-      fetchTask();
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        axios.put(`${import.meta.env.VITE_API_URL}/tasks/${taskId}`, task)
+            .then(response => {
+                setTask(response.data);
+            })
+            .catch(error => {
+                console.error('Ошибка при обновлении задачи:', error);
+            });
+    };
+
+    if (loading) {
+        return <div>Загрузка...</div>;
     }
-  }, [taskId]);
 
-  if (error) {
-    return <div>Ошибка при получении задачи: {error}</div>;
-  }
+    if (error) {
+        return <div>{error}</div>;
+    }
 
-  if (!task) {
-    return <div>Загрузка...</div>;
-  }
-
-  return (
-    <div>
-      <h1>{task.name}</h1>
-      <p>Статус: {task.status}</p>
-      <p>Начало: {new Date(task.startTime).toLocaleString()}</p>
-      <p>Конец: {new Date(task.endTime).toLocaleString()}</p>
-      <p>Заметки: {task.notes}</p>
-    </div>
-  );
+    return (
+        <div className="container mx-auto p-4">
+            <h1 className="text-2xl font-bold mb-4">Детали задачи</h1>
+            <form onSubmit={handleSubmit}>
+                <div className="mb-2">
+                    <input
+                        type="text"
+                        name="name"
+                        value={task.name}
+                        onChange={handleInputChange}
+                        placeholder="Название задачи"
+                        className="border p-2 w-full"
+                    />
+                </div>
+                <div className="mb-2">
+                    <input
+                        type="datetime-local"
+                        name="startTime"
+                        value={task.startTime ? new Date(task.startTime).toISOString().slice(0, 16) : ''}
+                        onChange={handleInputChange}
+                        className="border p-2 w-full"
+                    />
+                </div>
+                <div className="mb-2">
+                    <input
+                        type="datetime-local"
+                        name="endTime"
+                        value={task.endTime ? new Date(task.endTime).toISOString().slice(0, 16) : ''}
+                        onChange={handleInputChange}
+                        className="border p-2 w-full"
+                    />
+                </div>
+                <div className="mb-2">
+                    <textarea
+                        name="notes"
+                        value={task.notes || ''}
+                        onChange={handleInputChange}
+                        placeholder="Заметки"
+                        className="border p-2 w-full"
+                    ></textarea>
+                </div>
+                <div className="mb-2">
+                    <textarea
+                        name="description"
+                        value={task.description || ''}
+                        onChange={handleInputChange}
+                        placeholder="Описание задачи"
+                        className="border p-2 w-full"
+                    ></textarea>
+                </div>
+                <button type="submit" className="bg-blue-500 text-white p-2 rounded">Сохранить</button>
+            </form>
+        </div>
+    );
 };
 
 export default TaskDetail;
