@@ -6,6 +6,7 @@ import mongoose from 'mongoose';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import cors from 'cors';
+import errorHandler from './middleware/errorHandler.js';
 
 import authRoutes from './routes/auth.js';
 import projectsRouter from './routes/projects.js'; // Импортируем маршруты проектов
@@ -30,6 +31,7 @@ app.use('/api/projects', projectsRouter); // Используем маршрут
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+app.use(errorHandler);
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 
 app.get('*', (req, res) => {
