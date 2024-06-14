@@ -5,9 +5,6 @@ import Login from './components/Login';
 import Register from './components/Register';
 import Home from './components/Home';
 import ProjectsPage from './components/ProjectsPage';
-import TasksPage from './components/TasksPage'; // Импортируем новый компонент
-import TaskList from './components/TaskList'; // Импортируем компонент TaskList
-import TaskDetail from './components/TaskDetail'; // Импортируем компонент TaskDetail
 import NotFound from './components/NotFound';
 
 const App = () => (
@@ -17,9 +14,6 @@ const App = () => (
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/projects/*" element={<ProjectsPage />} />
-      <Route path="/tasks" element={<TasksPage />} />
-      <Route path="/tasks/:projectId" element={<TaskList />} />
-      <Route path="/tasks/:projectId/task/:taskId" element={<TaskDetail />} />
       <Route path="/home" element={<Home />} />
       <Route path="*" element={<NotFound />} />
     </Routes>
@@ -27,3 +21,4 @@ const App = () => (
 );
 
 export default App;
+
