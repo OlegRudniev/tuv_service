@@ -1,5 +1,6 @@
 import express from 'express';
 import Project from '../models/Project.js';
+import Task from '../models/Task.js';
 
 const router = express.Router();
 
@@ -25,6 +26,7 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Получить проект по ID
 router.get('/:id', async (req, res) => {
   try {
     const project = await Project.findById(req.params.id);
@@ -32,6 +34,56 @@ router.get('/:id', async (req, res) => {
       return res.status(404).json({ message: 'Проект не найден' });
     }
     res.json(project);
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// Получить задачи проекта по ID проекта
+router.get('/:id/tasks', async (req, res) => {
+  try {
+    const tasks = await Task.find({ projectId: req.params.id });
+    res.json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// Добавить новую задачу к проекту
+router.post('/:id/tasks', async (req, res) => {
+  try {
+    const { name, status, projectId } = req.body;
+    const newTask = new Task({ name, status, projectId });
+    await newTask.save();
+    res.status(201).json(newTask);
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// Получить задачу по ID
+router.get('/tasks/:taskId', async (req, res) => {
+  try {
+    const task = await Task.findById(req.params.taskId);
+    if (!task) {
+      return res.status(404).json({ message: 'Задача не найдена' });
+    }
+    res.json(task);
+  } catch (error) {
+    res.status(500).json({ message: 'Ошибка сервера' });
+  }
+});
+
+// Обновить задачу
+router.put('/tasks/:taskId', async (req, res) => {
+  try {
+    const { name, startTime, endTime, notes, status } = req.body;
+    const updatedTask = await Task.findByIdAndUpdate(
+      req.params.taskId,
+      { name, startTime, endTime, notes, status },
+      { new: true }
+    );
+    res.json(updatedTask);
   } catch (error) {
     res.status(500).json({ message: 'Ошибка сервера' });
   }
